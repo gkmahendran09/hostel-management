@@ -7,17 +7,19 @@ $pass = sha1(test_input($_POST['password']));
 $role = test_input($_POST['role']);
 
 if($role == "admin" || $role == "student") {
-    $stmt = $conn->prepare("SELECT name,role FROM $role WHERE username = ? AND password = ?");
+    $stmt = $conn->prepare("SELECT id,name,role FROM $role WHERE username = ? AND password = ?");
     $stmt->bind_param('ss', $uname, $pass);
     $stmt->execute();
     $stmt->store_result();
     $numrows = $stmt->num_rows;
     if($numrows > 0) {
-      $stmt->bind_result($name_value, $role_value);
+      $stmt->bind_result($id_value, $name_value, $role_value);
       $stmt->fetch();
+      $id = $role . "_id";
       $name = $role . "_name";
       $r = $role . "_role";
       session_start();
+      $_SESSION[$id] = $id_value;
       $_SESSION[$name] = $name_value;
       $_SESSION[$r] = $role_value;
 

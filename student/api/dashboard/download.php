@@ -4,18 +4,9 @@ include("../../admin_check.php");
 include("../../../inc/utils.php");
 include("../../../inc/db_connection.php");
 
-$get = 'student';
 
 // $result = $conn->query("SELECT student.name, student.role, student_room.room_id, student_fee.fee FROM student INNER JOIN student_room INNER JOIN student_fee ON student.id=student_room.student_id=student_fee.student_id");
-if(isset($_GET['get'])) {
-  $get = $_GET['get'];
-}
-
-if($get == 'fee') {
-  $result = $conn->query("SELECT a.name as `Name`, a.role as `Reg.No`, b.fee as `Balance Fee` FROM student a, student_fee b WHERE a.id=b.student_id");
-} else {
-  $result = $conn->query("SELECT a.name as `Name`, a.role as `Reg.No` FROM student a");
-}
+$result = $conn->query("SELECT a.name as `Name`, a.role as `Reg.No`, b.fee as `Balance Fee` FROM student a, student_fee b WHERE a.id=b.student_id");
 while($data = $result->fetch_assoc()) {
   $r[] = $data;
 }

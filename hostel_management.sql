@@ -1,4 +1,4 @@
--- Adminer 4.2.2 MySQL dump
+-- Adminer 4.2.3 MySQL dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -38,9 +38,7 @@ CREATE TABLE `rooms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `rooms` (`id`, `room_number`, `space`) VALUES
-(2,	'2',	'10'),
-(3,	'3',	'5'),
-(4,	'1',	'5');
+(7,	'1',	'10');
 
 DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
@@ -53,9 +51,9 @@ CREATE TABLE `student` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `student` (`id`, `name`, `username`, `password`, `role`) VALUES
-(3,	'Raj',	'raj',	'3055effa054a24f84cf42cea946db4cdf445cb76',	'123'),
-(4,	'Ramu',	'ramu',	'2c5280f16cfa61571602a788d525c0b27d5b5163',	'124'),
-(5,	'Mohan',	'mohan',	'abee2cb38f12d53e4682bab140e8f4b568816eee',	'125');
+(9,	'Raj',	'raj',	'3055effa054a24f84cf42cea946db4cdf445cb76',	'101'),
+(10,	'Ramu',	'ramu',	'2c5280f16cfa61571602a788d525c0b27d5b5163',	'102'),
+(11,	'Mohan',	'mohan',	'abee2cb38f12d53e4682bab140e8f4b568816eee',	'103');
 
 DROP TABLE IF EXISTS `student_fee`;
 CREATE TABLE `student_fee` (
@@ -64,11 +62,29 @@ CREATE TABLE `student_fee` (
   `fee` varchar(5) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `student_id` (`student_id`),
-  CONSTRAINT `student_fee_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
+  CONSTRAINT `student_fee_ibfk_3` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `student_fee` (`id`, `student_id`, `fee`) VALUES
-(1,	3,	'1000'),
-(2,	4,	'3000');
+(11,	11,	'3000'),
+(12,	10,	'7000'),
+(13,	9,	'5000');
 
--- 2016-01-04 13:32:06
+DROP TABLE IF EXISTS `student_room`;
+CREATE TABLE `student_room` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `student_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `student_id` (`student_id`),
+  KEY `room_id` (`room_id`),
+  CONSTRAINT `student_room_ibfk_4` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `student_room_ibfk_3` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `student_room` (`id`, `student_id`, `room_id`) VALUES
+(14,	9,	7),
+(15,	10,	7),
+(16,	11,	7);
+
+-- 2016-01-10 04:12:53
